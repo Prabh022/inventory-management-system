@@ -1,0 +1,2 @@
+LOW_STOCK_THRESHOLD = 10
+DATABASE_NAME = "inventory.db"
