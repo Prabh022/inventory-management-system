@@ -6,6 +6,7 @@ A lightweight inventory management system built with Python and SQLite. It runs 
 
 - Add, update, and delete inventory items
 - View all items currently in the inventory
+- Search items by name (case-insensitive partial match)
 - Low-stock alerts: warns you when an item's quantity falls below a threshold (default 10, changeable in `config.py`)
 - Weekly inventory report showing every item, which items are low on stock, and the total inventory value
 - Persistent storage using SQLite, so your data is still there the next time you run it
@@ -37,14 +38,15 @@ Then use the on-screen menu:
 4. Check Low Stock
 5. Weekly Report
 6. Delete Item
-7. Exit
+7. Search Items by Name
+8. Exit
 ```
 
 ## Project Structure
 
 ```
 main.py               - Command-line menu and program entry point
-inventory_manager.py  - Add, update, delete, and list operations on items
+inventory_manager.py  - Add, update, delete, list, and search operations on items
 database.py           - SQLite connection and inventory table setup
 alerts.py             - Low-stock check
 reports.py            - Weekly inventory report

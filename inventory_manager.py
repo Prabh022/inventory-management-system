@@ -40,3 +40,14 @@ class InventoryManager:
         items = cursor.fetchall()
         conn.close()
         return items
+
+    def search_items(self, search_term):
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT * FROM inventory WHERE name LIKE ?",
+            (f"%{search_term}%",)
+        )
+        items = cursor.fetchall()
+        conn.close()
+        return items

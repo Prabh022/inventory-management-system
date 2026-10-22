@@ -64,3 +64,12 @@ accurate.
 - Everywhere else, the original logic, function names, menu wording, and
   printed messages are unchanged. The only edits are the ones listed
   above.
+
+## Update — October 22, 2026
+
+**Feature: search items by name.** `InventoryManager` gained a
+`search_items()` method (case-insensitive partial match using SQL
+`LIKE`), and the menu gained a "Search Items by Name" option (option 7;
+Exit moved to 8). Verified with a scripted run: with "USB Cable",
+"Wireless Mouse", and "usb hub" in stock, searching "usb" returned the
+two USB items, and searching "keyboard" reported no matches.

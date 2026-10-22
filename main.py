@@ -12,7 +12,8 @@ def menu():
     print("4. Check Low Stock")
     print("5. Weekly Report")
     print("6. Delete Item")
-    print("7. Exit")
+    print("7. Search Items by Name")
+    print("8. Exit")
     return input("Enter choice: ")
 
 
@@ -66,6 +67,16 @@ def main():
                 print("❌ Invalid input. ID must be a number.")
 
         elif choice == "7":
+            search_term = input("Enter item name to search: ")
+            results = manager.search_items(search_term)
+            if not results:
+                print(f"No items match '{search_term}'.")
+            else:
+                print(f"\nItems matching '{search_term}':")
+                for item in results:
+                    print(f"ID: {item[0]} | {item[1]} | Qty: {item[2]} | Price: {item[3]}")
+
+        elif choice == "8":
             print("Exiting system...")
             break
 
