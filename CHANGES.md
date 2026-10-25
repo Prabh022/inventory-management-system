@@ -65,6 +65,15 @@ accurate.
   printed messages are unchanged. The only edits are the ones listed
   above.
 
+## Update — October 25, 2026
+
+**Automated tests.** Added `test_inventory.py` (5 tests, standard library
+only): add-and-list, case-insensitive partial search, update quantity,
+delete, and low-stock alerts (only items below the threshold of 10 are
+flagged). The tests point the database at a temporary file, so running
+them never touches the real `inventory.db`. Verified: all 5 tests pass
+(`Ran 5 tests ... OK`).
+
 ## Update — October 22, 2026
 
 **Feature: search items by name.** `InventoryManager` gained a

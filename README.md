@@ -10,6 +10,7 @@ A lightweight inventory management system built with Python and SQLite. It runs 
 - Low-stock alerts: warns you when an item's quantity falls below a threshold (default 10, changeable in `config.py`)
 - Weekly inventory report showing every item, which items are low on stock, and the total inventory value
 - Persistent storage using SQLite, so your data is still there the next time you run it
+- Automated tests (`test_inventory.py`) covering add, list, search, update, delete, and low-stock alerts — they run against a temporary database, so they never touch your real `inventory.db`
 
 ## Tech Stack
 
@@ -48,6 +49,7 @@ Then use the on-screen menu:
 main.py               - Command-line menu and program entry point
 inventory_manager.py  - Add, update, delete, list, and search operations on items
 database.py           - SQLite connection and inventory table setup
+test_inventory.py     - Automated tests (run: `python test_inventory.py`)
 alerts.py             - Low-stock check
 reports.py            - Weekly inventory report
 config.py             - Settings: database filename and low-stock threshold
