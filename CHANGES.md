@@ -82,3 +82,20 @@ them never touches the real `inventory.db`. Verified: all 5 tests pass
 Exit moved to 8). Verified with a scripted run: with "USB Cable",
 "Wireless Mouse", and "usb hub" in stock, searching "usb" returned the
 two USB items, and searching "keyboard" reported no matches.
+
+## Update — October 28, 2026
+
+**Feature: Power BI export.** New `powerbi_export.py` (menu option 8;
+Exit moved to 9) dumps the inventory as two CSVs shaped for Power BI
+Desktop: `inventory_snapshot.csv` (one row per item, with computed
+stock_value and a stock_status flag — "Low Stock" below the threshold
+of 10, otherwise "In Stock") and `inventory_summary.csv` (one row of
+KPIs: total items, total quantity, total inventory value, low-stock
+count). A `powerbi/README.md` guide explains the Power BI Desktop
+setup and suggested visuals. No Power BI file is checked in — the
+dashboard is built from live exported data, so nothing here is sample
+or placeholder data. Tests added (2 new tests, 7 total): snapshot
+rows, computed values, status flags, summary totals, and the empty
+inventory case, all against a temporary database. Verified: all
+7 tests pass (`Ran 7 tests ... OK`); a scripted menu run wrote both
+CSVs with correct values.

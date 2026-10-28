@@ -21,6 +21,7 @@ import database
 from database import initialize_db
 from inventory_manager import InventoryManager
 import alerts
+import powerbi_export
 
 
 class InventoryManagerTest(unittest.TestCase):
@@ -79,6 +80,61 @@ class InventoryManagerTest(unittest.TestCase):
             alerts.check_low_stock()
         self.assertIn("usb hub", output.getvalue())
         self.assertNotIn("USB Cable", output.getvalue())
+
+
+class PowerBIExportTest(unittest.TestCase):
+    def setUp(self):
+        self.tmpdir = tempfile.TemporaryDirectory()
+        database.DATABASE_NAME = os.path.join(self.tmpdir.name, "test.db")
+        initialize_db()
+        self.manager = InventoryManager()
+
+    def tearDown(self):
+        self.tmpdir.cleanup()
+
+    def test_export_writes_snapshot_and_summary(self):
+        import csv
+
+        self.manager.add_item("USB Cable", 25, 9.99)
+        self.manager.add_item("usb hub", 8, 14.99)
+        outdir = os.path.join(self.tmpdir.name, "powerbi")
+        result = powerbi_export.export_powerbi(outdir)
+        self.assertEqual(result["items"], 2)
+        self.assertTrue(os.path.isfile(result["snapshot"]))
+        self.assertTrue(os.path.isfile(result["summary"]))
+
+        with open(result["snapshot"], newline="", encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        self.assertEqual(len(rows), 2)
+        cable = [r for r in rows if r["name"] == "USB Cable"][0]
+        self.assertEqual(cable["quantity"], "25")
+        self.assertAlmostEqual(float(cable["stock_value"]), 249.75)
+        self.assertEqual(cable["stock_status"], "In Stock")
+        hub = [r for r in rows if r["name"] == "usb hub"][0]
+        self.assertEqual(hub["stock_status"], "Low Stock")
+        self.assertAlmostEqual(float(hub["stock_value"]), 119.92)
+
+        with open(result["summary"], newline="", encoding="utf-8") as f:
+            summary = list(csv.DictReader(f))
+        self.assertEqual(len(summary), 1)
+        self.assertEqual(summary[0]["total_items"], "2")
+        self.assertEqual(summary[0]["total_quantity"], "33")
+        self.assertAlmostEqual(float(summary[0]["total_value"]), 369.67)
+        self.assertEqual(summary[0]["low_stock_count"], "1")
+
+    def test_export_on_empty_inventory(self):
+        import csv
+
+        outdir = os.path.join(self.tmpdir.name, "powerbi")
+        result = powerbi_export.export_powerbi(outdir)
+        self.assertEqual(result["items"], 0)
+        with open(result["snapshot"], newline="", encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        self.assertEqual(rows, [])
+        with open(result["summary"], newline="", encoding="utf-8") as f:
+            summary = list(csv.DictReader(f))
+        self.assertEqual(summary[0]["total_items"], "0")
+        self.assertEqual(summary[0]["total_value"], "0")
 
 
 if __name__ == "__main__":

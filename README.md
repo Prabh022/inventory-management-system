@@ -9,6 +9,7 @@ A lightweight inventory management system built with Python and SQLite. It runs 
 - Search items by name (case-insensitive partial match)
 - Low-stock alerts: warns you when an item's quantity falls below a threshold (default 10, changeable in `config.py`)
 - Weekly inventory report showing every item, which items are low on stock, and the total inventory value
+- Power BI export (menu option 8): dumps the inventory as two CSVs shaped for Power BI Desktop — a per-item snapshot with computed stock value and stock status, and a one-row KPI summary — see `powerbi/README.md` for the dashboard setup
 - Persistent storage using SQLite, so your data is still there the next time you run it
 - Automated tests (`test_inventory.py`) covering add, list, search, update, delete, and low-stock alerts — they run against a temporary database, so they never touch your real `inventory.db`
 
@@ -40,8 +41,18 @@ Then use the on-screen menu:
 5. Weekly Report
 6. Delete Item
 7. Search Items by Name
-8. Exit
+8. Export for Power BI
+9. Exit
 ```
+
+## Power BI export
+
+Menu option 8 writes two CSVs into `powerbi/` for Power BI Desktop:
+`inventory_snapshot.csv` (one row per item, with stock value and
+stock status) and `inventory_summary.csv` (total items, quantity,
+value, and low-stock count for card visuals). Full setup — including
+suggested visuals — is in `powerbi/README.md`. Re-run the export
+after changing the inventory, then refresh the data in Power BI.
 
 ## Project Structure
 
@@ -52,6 +63,8 @@ database.py           - SQLite connection and inventory table setup
 test_inventory.py     - Automated tests (run: `python test_inventory.py`)
 alerts.py             - Low-stock check
 reports.py            - Weekly inventory report
+powerbi_export.py     - Export inventory data as CSVs shaped for Power BI
+powerbi/README.md     - How to connect Power BI Desktop to the exported CSVs
 config.py             - Settings: database filename and low-stock threshold
 requirements.txt      - Python packages needed to run the project
 ```

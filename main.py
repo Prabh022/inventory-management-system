@@ -2,6 +2,7 @@ from database import initialize_db
 from inventory_manager import InventoryManager
 from alerts import check_low_stock
 from reports import generate_weekly_report
+from powerbi_export import export_powerbi
 
 
 def menu():
@@ -13,7 +14,8 @@ def menu():
     print("5. Weekly Report")
     print("6. Delete Item")
     print("7. Search Items by Name")
-    print("8. Exit")
+    print("8. Export for Power BI")
+    print("9. Exit")
     return input("Enter choice: ")
 
 
@@ -77,6 +79,10 @@ def main():
                     print(f"ID: {item[0]} | {item[1]} | Qty: {item[2]} | Price: {item[3]}")
 
         elif choice == "8":
+            result = export_powerbi()
+            print(f"✔ Power BI export written: {result['snapshot']} and {result['summary']} ({result['items']} items).")
+
+        elif choice == "9":
             print("Exiting system...")
             break
 
