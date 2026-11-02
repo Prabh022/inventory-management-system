@@ -7,11 +7,12 @@ A lightweight inventory management system built with Python and SQLite. It runs 
 - Add, update, and delete inventory items
 - View all items currently in the inventory
 - Search items by name (case-insensitive partial match)
+- Quantities and prices must be non-negative: adding an item or updating a quantity with a negative number is rejected, so bad input can never corrupt the stock counts
 - Low-stock alerts: warns you when an item's quantity falls below a threshold (default 10, changeable in `config.py`)
 - Weekly inventory report showing every item, which items are low on stock, and the total inventory value
 - Power BI export (menu option 8): dumps the inventory as two CSVs shaped for Power BI Desktop — a per-item snapshot with computed stock value and stock status, and a one-row KPI summary — see `powerbi/README.md` for the dashboard setup
 - Persistent storage using SQLite, so your data is still there the next time you run it
-- Automated tests (`test_inventory.py`) covering add, list, search, update, delete, and low-stock alerts — they run against a temporary database, so they never touch your real `inventory.db`
+- Automated tests (`test_inventory.py`) covering add, list, search, update, delete, low-stock alerts, and negative-input rejection — they run against a temporary database, so they never touch your real `inventory.db`
 
 ## Tech Stack
 

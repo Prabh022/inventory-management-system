@@ -99,3 +99,15 @@ rows, computed values, status flags, summary totals, and the empty
 inventory case, all against a temporary database. Verified: all
 7 tests pass (`Ran 7 tests ... OK`); a scripted menu run wrote both
 CSVs with correct values.
+
+## Update — November 2, 2026
+
+**Validation: reject negative quantities and prices.** `InventoryManager`
+previously accepted any numbers, so a typo could store a negative stock
+count or price. `add_item()` now raises `ValueError` on a negative
+quantity or price, and `update_quantity()` raises on a negative new
+quantity, before touching the database. The menu already catches
+`ValueError` for both options, and its messages now say the values must
+be non-negative. Tests added (3 new tests, 10 total): negative add
+quantity, negative add price, and negative update leaving the stored
+quantity unchanged, all against a temporary database.

@@ -4,6 +4,10 @@ from database import get_connection
 class InventoryManager:
 
     def add_item(self, name, quantity, price):
+        if quantity < 0:
+            raise ValueError("Quantity cannot be negative.")
+        if price < 0:
+            raise ValueError("Price cannot be negative.")
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute(
@@ -14,6 +18,8 @@ class InventoryManager:
         conn.close()
 
     def update_quantity(self, item_id, new_quantity):
+        if new_quantity < 0:
+            raise ValueError("Quantity cannot be negative.")
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute(

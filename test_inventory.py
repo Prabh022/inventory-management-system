@@ -137,5 +137,23 @@ class PowerBIExportTest(unittest.TestCase):
         self.assertEqual(summary[0]["total_value"], "0")
 
 
+    def test_add_item_negative_quantity_raises(self):
+        with self.assertRaises(ValueError):
+            self.manager.add_item("Bad Item", -1, 9.99)
+        self.assertEqual(self.manager.get_all_items(), [])
+
+    def test_add_item_negative_price_raises(self):
+        with self.assertRaises(ValueError):
+            self.manager.add_item("Bad Item", 5, -0.50)
+        self.assertEqual(self.manager.get_all_items(), [])
+
+    def test_update_quantity_negative_raises_and_leaves_value_unchanged(self):
+        self.manager.add_item("USB Cable", 25, 9.99)
+        item_id = self.manager.get_all_items()[0][0]
+        with self.assertRaises(ValueError):
+            self.manager.update_quantity(item_id, -3)
+        self.assertEqual(self.manager.get_all_items()[0][2], 25)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

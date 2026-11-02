@@ -34,7 +34,7 @@ def main():
                 manager.add_item(name, qty, price)
                 print("✔ Item added successfully.")
             except ValueError:
-                print("❌ Invalid input. Quantity and price must be numbers.")
+                print("❌ Invalid input. Quantity and price must be non-negative numbers.")
 
         elif choice == "2":
             try:
@@ -43,7 +43,7 @@ def main():
                 manager.update_quantity(item_id, qty)
                 print("✔ Quantity updated.")
             except ValueError:
-                print("❌ Invalid input. ID and quantity must be numbers.")
+                print("❌ Invalid input. ID must be a number and quantity must be non-negative.")
 
         elif choice == "3":
             items = manager.get_all_items()
