@@ -29,6 +29,18 @@ class InventoryManager:
         conn.commit()
         conn.close()
 
+    def update_price(self, item_id, new_price):
+        if new_price < 0:
+            raise ValueError("Price cannot be negative.")
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "UPDATE inventory SET price = ? WHERE id = ?",
+            (new_price, item_id)
+        )
+        conn.commit()
+        conn.close()
+
     def delete_item(self, item_id):
         conn = get_connection()
         cursor = conn.cursor()

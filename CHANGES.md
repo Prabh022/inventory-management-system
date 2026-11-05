@@ -111,3 +111,16 @@ quantity, before touching the database. The menu already catches
 be non-negative. Tests added (3 new tests, 10 total): negative add
 quantity, negative add price, and negative update leaving the stored
 quantity unchanged, all against a temporary database.
+
+## Update — November 5, 2026
+
+**Feature: update item price.** New `InventoryManager.update_price()`
+(menu option 9; Exit moved to 10) changes an item's price by ID,
+mirroring the existing quantity update; a negative price raises
+`ValueError` before the database is touched, and the menu catches it
+with the same non-negative message. Tests added (2 new tests, 12
+total): updating a price changes only the price (quantity untouched),
+and a negative update is rejected with the stored price unchanged,
+both against a temporary database. Verified: all 12 tests pass
+(`Ran 12 tests ... OK`); a scripted menu run changed USB Cable from
+$9.99 to $12.49 and left its quantity at 25.

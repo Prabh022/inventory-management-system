@@ -62,6 +62,21 @@ class InventoryManagerTest(unittest.TestCase):
         self.manager.update_quantity(item_id, 40)
         self.assertEqual(self.manager.get_all_items()[0][2], 40)
 
+    def test_update_price(self):
+        self.manager.add_item("USB Cable", 25, 9.99)
+        item_id = self.manager.get_all_items()[0][0]
+        self.manager.update_price(item_id, 12.49)
+        item = self.manager.get_all_items()[0]
+        self.assertAlmostEqual(item[3], 12.49)
+        self.assertEqual(item[2], 25)  # quantity untouched
+
+    def test_update_price_negative_raises_and_leaves_value_unchanged(self):
+        self.manager.add_item("USB Cable", 25, 9.99)
+        item_id = self.manager.get_all_items()[0][0]
+        with self.assertRaises(ValueError):
+            self.manager.update_price(item_id, -1.00)
+        self.assertAlmostEqual(self.manager.get_all_items()[0][3], 9.99)
+
     def test_delete_item(self):
         self.manager.add_item("USB Cable", 25, 9.99)
         self.manager.add_item("Wireless Mouse", 12, 24.50)

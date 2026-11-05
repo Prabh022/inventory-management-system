@@ -15,7 +15,8 @@ def menu():
     print("6. Delete Item")
     print("7. Search Items by Name")
     print("8. Export for Power BI")
-    print("9. Exit")
+    print("9. Update Price")
+    print("10. Exit")
     return input("Enter choice: ")
 
 
@@ -83,6 +84,15 @@ def main():
             print(f"✔ Power BI export written: {result['snapshot']} and {result['summary']} ({result['items']} items).")
 
         elif choice == "9":
+            try:
+                item_id = int(input("Item ID: "))
+                price = float(input("New Price: "))
+                manager.update_price(item_id, price)
+                print("✔ Price updated.")
+            except ValueError:
+                print("❌ Invalid input. ID must be a number and price must be non-negative.")
+
+        elif choice == "10":
             print("Exiting system...")
             break
 
